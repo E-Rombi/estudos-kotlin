@@ -25,9 +25,7 @@ class MembroRequestValidator(
         val period = Period.between(target.dataNascimento, LocalDate.now())
         if (period.years < 18) errors.rejectValue("dataNascimento", null.toString(), "Necessário ter 18 anos !")
 
-        val findByEmail = repository.findByEmail(target.email)
-        if (findByEmail != null) errors.rejectValue("email", null.toString(), "Email já cadastrado !")
-
-
+        val possivelMembro = repository.findByEmail(target.email)
+        if (possivelMembro.isPresent) errors.rejectValue("email", null.toString(), "Email já cadastrado !")
     }
 }
